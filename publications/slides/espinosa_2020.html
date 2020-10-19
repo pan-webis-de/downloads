@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content=" María S. Espinosa    mespinosa@lsi.uned.es">
+  <title>Analyzing User Profiles for Detection of Fake News Spreaders on Twitter</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="reveal.js/css/theme/beige.css" id="theme">
+  <link rel="stylesheet" href="estilo.css"/>
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+<section>
+  <h1 class="title">Analyzing User Profiles for Detection of Fake News Spreaders on Twitter</h1>
+  <p class="author"><br>María S. Espinosa    <em>mespinosa@lsi.uned.es</em></p>
+  <p class="date"><small>Roberto Centeno    <em>rcenteno@lsi.uned.es</em><br>Álvaro Rodrigo    <em>alvarory@lsi.uned.es</em> <br><br>NLP&amp;IR Group at UNED<br><br>Notebook for PAN at CLEF 2020<br><br>24th September 2020</small></p>
+</section>
+<section><section id="our-approach" class="titleslide slide level1"><h1>OUR APPROACH</h1></section><section id="motivation" class="slide level2">
+<h2>Motivation</h2>
+<p>Fake news are becoming a reason of concern due to the potential social cost it may have in the near future.</p>
+</section><section id="our-main-hypothesis" class="slide level2">
+<h2>Our main hypothesis</h2>
+<p><em>Establishing the difference between user-created and user-shared content will reveal more accurate features of the user’s online behavior.</em></p>
+<p class="fragment fade-up">
+To model user's behaviour, we combine psychological and linguistic features of that content originally created by the user
+</p>
+<p class="fragment fade-up">
+In addition, we measure the contents shared by the user but created by others in a different way (i.e. retweets)
+</p>
+</section><section id="overview" class="slide level2">
+<h2>Overview</h2>
+<!-- - Task Description      
+- Dataset Description  -->
+<ul>
+<li>Preprocessing</li>
+<li>Feature Engineering</li>
+<li>Experiments</li>
+<li>Results</li>
+<li>Conclusions</li>
+</ul>
+<!-- 
+# Task Description
+## Task Description
+- **PAN@CLEF 2020** competition
+- Authorship Analysis: <br>
+*Profiling Fake News Spreaders on Twitter* [@rangel:2020]
+- Given a Twitter feed, determine whether its author is keen to be a spreader of fake news.
+# Dataset Description
+## Dataset Description
+- One dataset, 2 collections: Spanish, English
+- 300 XML documents in each collection (one per user) containing 100 tweets written or shared by the user.
+- Data regarding IDs, usernames, hashtags and URLs were obfuscated for privacy reasons. 
+## Example
+[*RT The new president of the USA is \@bartsimpson! #usa https://thenews.com/new-president-bart-simpson*]{style="font-size:30px"}
+would convert to:  
+<p style="font-size:30px">*RT The new president of the USA is **\$USER\$** ! **\$HASHTAG\$** **\$URL\$***</p> -->
+</section></section>
+<section><section id="preprocessing" class="titleslide slide level1"><h1>Preprocessing</h1></section><section id="section" class="slide level2">
+<h2></h2>
+<figure>
+<img src="7.png" />
+</figure>
+</section><section id="section-1" class="slide level2">
+<h2></h2>
+<figure>
+<img src="5.png" />
+</figure>
+</section><section id="section-2" class="slide level2">
+<h2></h2>
+<figure>
+<img src="3.png" />
+</figure>
+</section><section id="section-3" class="slide level2">
+<h2></h2>
+<figure>
+<img src="1.png" />
+</figure>
+</section></section>
+<section><section id="feature-engineering" class="titleslide slide level1"><h1>Feature Engineering</h1></section><section id="features" class="slide level2">
+<h2>Features</h2>
+<p class="stretch">
+<img src="table_features.png">
+</p>
+</section><section id="section-4" class="slide level2">
+<h2></h2>
+<p>According to our main hypothesis, feature extraction was applied differently to the content created by the user (i.e. his/her tweets) than to the content shared by the user but originally written by others (i.e. retweets).</p>
+</section><section id="psychological-features" class="slide level2">
+<h2>Psychological Features</h2>
+<div style="font-size:30px;">
+<p>
+Recent research <span class="citation" data-cites="crestani2020role">(Crestani and Rosso, n.d.)</span> has demonstrated that studying the correlation of the user profile and the spread of fake news works for the identification of those users more likely to believe fake news. Using 3rd party API by <em>Symanto</em><sup>1</sup> , we obtained values for the user's:
+</p>
+<ul>
+<li>personality traits</li>
+<li>communication styles</li>
+<li>sentiment analysis</li>
+</ul>
+</div>
+<p><a href="https://symanto-research.github.io/symanto-docs/" target="_blank"><span class="footer-left" style="font-size:20px;"><sup>1</sup>https://symanto-research.github.io/symanto-docs/</span></a></p>
+</section><section id="linguistic-features" class="slide level2">
+<h2>Linguistic Features</h2>
+<p>In order to capture the different aspects of fake news and real news, existing work utilized both linguistic features, such as lexical and syntactic features <span class="citation" data-cites="shu2017fake">(Shu et al. 2017)</span>. We used a library called <em>Polyglot</em> <span class="citation" data-cites="polyglot:2013:ACL-CoNLL">(Al-Rfou, Perozzi, and Skiena 2013)</span> in order to obtain:</p>
+<ul>
+<li><p>12 POS tagging metrics</p></li>
+<li><p>3 named entity recognition metrics</p></li>
+<li><p>total word count</p></li>
+</ul>
+</section><section id="twiter-actions-features" class="slide level2">
+<h2>Twiter Actions Features</h2>
+<div style="font-size:30px;">
+<p>
+Network realted features have been widely exploited in different tasks on social media, such as information credibility classification <span class="citation" data-cites="castillo2011information">(Castillo, Mendoza, and Poblete 2011)</span>. The analysis of Twitter activities was restricted due to data obfuscation. We obtained 4 metrics from the actions performed by the user within Twitter:
+</p>
+<ul>
+<li>the number of mentions</li>
+<li>the number of URLs</li>
+<li>the number of retweets</li>
+<li>the number of hashtags</li>
+</ul>
+</div>
+</section><section id="headline-analysis-data" class="slide level2">
+<h2>Headline Analysis Data</h2>
+<div style="font-size:30px">
+<p>
+Recent studies <span class="citation" data-cites="horne2017just">(Horne and Adali 2017)</span> show that message characteristics specific to fake news can be found in the headline of news articles. The 3 most significative of them being:
+</p>
+<ul>
+<li>number of words all in caps</li>
+<li>percentage of stopwords</li>
+<li>number of proper nouns</li>
+</ul>
+<p>
+Based on the assumption that retweets are more likely to contain news headlines, we separated tweets from retweets and applied these measurements only to the retweet subset.
+</p>
+</div>
+</section></section>
+<section><section id="experiments" class="titleslide slide level1"><h1>Experiments</h1></section><section id="testing-feature-categories-separatedly" class="slide level2">
+<h2>Testing feature categories separatedly</h2>
+<p class="stretch">
+<img src="table_exp1_2.png">
+</p>
+<div style="font-size:20px;">
+<p>Cat1: psychological features Cat2: linguistic features <br> Cat3: Twitter actions Cat4: headline analysis data</p>
+</div>
+</section><section id="testing-final-model-with-different-classifiers" class="slide level2">
+<h2>Testing final model with different classifiers</h2>
+<p class="stretch">
+<img src="table_exp3.png">
+</p>
+<div style="font-size:35px;">
+<ul>
+<li>Most relevant features: linguistic and psychological features</li>
+<li>Best performing classifier: Random Forest Classifier</li>
+</ul>
+</div>
+</section></section>
+<section><section id="results" class="titleslide slide level1"><h1>Results</h1></section><section id="evolution-of-the-model-from-the-early-bird-to-the-final-submission" class="slide level2">
+<h2>Evolution of the model from the <em>early-bird</em>  to the final submission</h2>
+<ul>
+<li><p>Psychological features were not included in the first evaluation due to technical issues.</p></li>
+<li><p>The separation of user original tweets from user retweets was only applied or the final evaluation submission.</p></li>
+<li><p>The headline analysis data was added to the model for the final evaluation submission.</p></li>
+</ul>
+</section><section id="model-evaluation-results-throughout-the-different-evaluation-phases" class="slide level2">
+<h2>Model evaluation results throughout the different evaluation phases</h2>
+<p class="stretch">
+<img src="results_2.png">
+</p>
+<!-- [![ ](results_2.png)]{width=5%} -->
+<div style="font-size:25px;">
+<ul>
+<li><p>Our team was in position 61 from 66 in the classification (results in both Spanish and English).</p></li>
+<li>Considering only English language results, our team was positioned 45th form 66 participants.</li>
+</ul>
+</div>
+</section></section>
+<section><section id="conclusions" class="titleslide slide level1"><h1>Conclusions</h1></section><section id="section-5" class="slide level2">
+<h2></h2>
+<h3 id="section-6">1</h3>
+<p>We have completed a model wich combines <strong>psychological</strong> and <strong>linguistic</strong> traits, together with characteristics from the user <strong>behaviour</strong> and <strong>news headline</strong> analysis.</p>
+</section><section id="section-7" class="slide level2">
+<h2></h2>
+<h3 id="section-8">2</h3>
+<p>Our results in development and test are consistent, which means that, despite the improvement needed, it is a <strong>robust model</strong> with an expectable performance when datasets vary.</p>
+</section><section id="section-9" class="slide level2">
+<h2></h2>
+<h3 id="section-10">3</h3>
+<p>We have found that contextual information about the user, in combination with linguistic features, can be of great use to detect Fake News in social media.</p>
+</section></section>
+<section><section id="future-work" class="titleslide slide level1"><h1>Future Work</h1></section><section id="section-11" class="slide level2">
+<h2></h2>
+<p>One of the next experiments will be to use <strong>deep learning</strong> in the training phase of the model.</p>
+</section><section id="section-12" class="slide level2">
+<h2></h2>
+<p>In addition, more work needs to be done with regards to the <strong>psychological and psycholinguistic dimension</strong> of the model.</p>
+</section></section>
+<section><section id="thank-you" class="titleslide slide level1"><h1>Thank you <br> :)</h1></section><section id="references" class="slide level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-polyglot:2013:ACL-CoNLL">
+<p>Al-Rfou, Rami, Bryan Perozzi, and Steven Skiena. 2013. “Polyglot: Distributed Word Representations for Multilingual Nlp.” In <em>Proceedings of the Seventeenth Conference on Computational Natural Language Learning</em>, 183–92. Sofia, Bulgaria: Association for Computational Linguistics. <a href="http://www.aclweb.org/anthology/W13-3520" class="uri">http://www.aclweb.org/anthology/W13-3520</a>.</p>
+</div>
+<div id="ref-castillo2011information">
+<p>Castillo, Carlos, Marcelo Mendoza, and Barbara Poblete. 2011. “Information Credibility on Twitter.” In <em>Proceedings of the 20th International Conference on World Wide Web</em>, 675–84.</p>
+</div>
+<div id="ref-crestani2020role">
+<p>Crestani, Fabio, and Paolo Rosso. n.d. “The Role of Personality and Linguistic Patterns in Discriminating Between Fake News Spreaders and Fact Checkers.” In <em>Natural Language Processing and Information Systems: 25th International Conference on Applications of Natural Language to Information Systems, Nldb 2020, Saarbrücken, Germany, June 24–26, 2020, Proceedings</em>, 181. Springer Nature.</p>
+</div>
+<div id="ref-horne2017just">
+<p>Horne, Benjamin D, and Sibel Adali. 2017. “This Just in: Fake News Packs a Lot in Title, Uses Simpler, Repetitive Content in Text Body, More Similar to Satire Than Real News.” In <em>Eleventh International Aaai Conference on Web and Social Media</em>.</p>
+</div>
+<div id="ref-shu2017fake">
+<p>Shu, Kai, Amy Sliva, Suhang Wang, Jiliang Tang, and Huan Liu. 2017. “Fake News Detection on Social Media: A Data Mining Perspective.” <em>ACM SIGKDD Explorations Newsletter</em> 19 (1). ACM New York, NY, USA: 22–36.</p>
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+  <script>
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+              { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>
